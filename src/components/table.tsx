@@ -16,6 +16,7 @@ export type item = {
     quantity: number,
     description: string,
     unit_price: number
+    total_amount: number
 }
 
 const Items = ({ quantity, description, unit_price }: item) => {
