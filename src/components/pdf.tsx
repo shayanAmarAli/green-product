@@ -14,12 +14,10 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
 
   const router = useRouter();
-<<<<<<< HEAD
   if (imageUrl) {
     // Call the callback function to handle the uploaded image URL
     onImageUpload(imageUrl);
   }
-=======
 
   useEffect(() => {
     if (imageUrl) {
@@ -27,7 +25,6 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
       onImageUpload(imageUrl);
     }
   }, [imageUrl]);
->>>>>>> 7695e2d53145625d2a9f5ea5e82d25aad4930a65
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
