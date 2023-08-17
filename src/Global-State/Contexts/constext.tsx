@@ -11,6 +11,7 @@ type client_type = {
     contractor: string,
     customer_address: string,
     contractor_address: string,
+    client_signature: string
 }
 
 const CustomerConstext = ({ children }: any) => {
@@ -19,6 +20,7 @@ const CustomerConstext = ({ children }: any) => {
         contractor: "",
         customer_address: "",
         contractor_address: "",
+        client_signature: ""
     }
 
     const [client, setClient] = useState(clientCredential);

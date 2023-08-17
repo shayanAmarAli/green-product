@@ -8,6 +8,8 @@ import { useReactToPrint } from 'react-to-print';
 import { useFormContext } from '@/Global-State/Contexts/context'
 import { FormContext } from '@/Global-State/Contexts/constext'
 import jsPDF from 'jspdf';
+import ImageUpload from '@/components/pdf';
+import Client_signature from '@/app/signature/page';
 
 export interface Product {
     id: number;
@@ -16,7 +18,6 @@ export interface Product {
     pricePerUnit: number;
     total_amount: number
 }
-import ImageUpload from './pdf'
 const InvoiceApp: React.FC = () => {
     const [products, setProducts] = useState<Product[]>([]);
     const [name, setName] = useState('');
@@ -27,6 +28,7 @@ const InvoiceApp: React.FC = () => {
     const [customerAddress, setCustomerAddress] = useState("")
     const [contractor, setContractor] = useState("")
     const [contractorAddress, setContractorAddress] = useState("");
+    const [uploadedImageUrl, setUploadedImageUrl] = useState("");
 
     const router = useRouter();
     const { setItem } = useFormContext()
@@ -53,6 +55,13 @@ const InvoiceApp: React.FC = () => {
         setPricePerUnit(0);
     };
 
+    const handleImageUpload = (imageUrl: string) => {
+        setUploadedImageUrl(imageUrl);
+        if(uploadedImageUrl){
+
+            console.log(uploadedImageUrl);
+        }
+    };
     const onSubmitHandler = () => {
         setItem(products);
         setClient({
@@ -60,6 +69,7 @@ const InvoiceApp: React.FC = () => {
             contractor: contractor,
             customer_address: customerAddress,
             contractor_address: contractorAddress,
+            client_signature: uploadedImageUrl
         })
         router.push("/pdf")
     }
@@ -72,15 +82,17 @@ const InvoiceApp: React.FC = () => {
     const calculateTotal = () => {
         return products.reduce((total, product) => total + product.quantity * product.pricePerUnit, 0);
     };
-    
+
     return (
         <Container maxW="2xl" boxShadow="base" borderRadius="md" bg="white">
             <Box display={'flex'} justifyContent={"space-between"} pt={"10px"}> <Heading as="h1" my={4}>
                 Detail of work
             </Heading>
-                <ImageUpload />
+                <ImageUpload onImageUpload={handleImageUpload} />
+                {/* <img src={uploadedImageUrl} alt="image not uploaded" /> */}
             </Box>
             <VStack p={4}>
+
                 <FormControl >
                     <FormLabel>Customer Name</FormLabel>
                     <Input onChange={(e: any) => {
@@ -171,7 +183,8 @@ const InvoiceApp: React.FC = () => {
                     </Heading>
                 </Box>
             </Box>
-            <Button width={"full"} onClick={ ()=> onSubmitHandler()}>SUBMIT INVOICE</Button>
+            <Client_signature />
+            <Button width={"full"} bg={"gray.300"} onClick={() => onSubmitHandler()}>SUBMIT INVOICE</Button>
         </Container>
     );
 };

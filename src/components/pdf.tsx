@@ -1,26 +1,39 @@
-import { useState } from 'react';
+"use client"
+import { useState, useEffect } from 'react';
 import { Box, Button, Text, VStack } from '@chakra-ui/react';
 import { motion } from 'framer-motion';
-import { useFormContext } from '@/Global-State/Contexts/context'
-import { FormContext } from '@/Global-State/Contexts/constext'
 import { useRouter } from 'next/navigation';
+import Image from 'next/image';
 
-const ImageUpload: React.FC = () => {
+interface ImageUploadProps {
+  onImageUpload: (imageUrl: string) => void;
+}
+
+const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+  const [imageUrl, setImageUrl] = useState<string | null>(null);
+
+  const router = useRouter();
+  if (imageUrl) {
+    // Call the callback function to handle the uploaded image URL
+    onImageUpload(imageUrl);
+  }
 
   const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files && e.target.files[0];
     if (file) {
       setSelectedImage(file);
+      setImageUrl(URL.createObjectURL(file));
     }
   };
 
   const handleRemoveImage = () => {
     setSelectedImage(null);
+    setImageUrl(null);
   };
 
   return (
-    <VStack spacing={4} >
+    <VStack spacing={4}>
       <input
         type="file"
         accept="image/*"
@@ -33,8 +46,6 @@ const ImageUpload: React.FC = () => {
           whileHover={{ scale: 1.05 }}
           whileTap={{ scale: 0.95 }}
           style={{
-            border: '2px dashed gray',
-            borderRadius: '8px',
             width: '120px',
             height: '100px',
             display: 'flex',
@@ -44,22 +55,18 @@ const ImageUpload: React.FC = () => {
           }}
         >
           {selectedImage ? (
-            <img
-              src={URL.createObjectURL(selectedImage)}
-              alt="Selected"
-              style={{ maxWidth: '100%', maxHeight: '100%' }}
-            />
+            <Image src={URL.createObjectURL(selectedImage)} className='shadow-md rounded' alt="Selected" style={{ maxWidth: '100%', maxHeight: '100%' }}/>
           ) : (
-            <Text fontSize={"10px"} textAlign={"center"}> Drop logo Here</Text>
+            <Text fontSize={'10px'} textAlign={'center'}>
+              {' '}
+              Drop logo Here
+            </Text>
           )}
         </motion.div>
       </label>
       <Box>
         {selectedImage && (
           <VStack spacing={2}>
-            <Text>
-              Selected Image: {selectedImage.name} ({Math.round(selectedImage.size / 1024)} KB)
-            </Text>
             <Button colorScheme="red" onClick={handleRemoveImage}>
               Remove Image
             </Button>
