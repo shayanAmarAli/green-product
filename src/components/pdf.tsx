@@ -62,7 +62,11 @@ const ImageUpload: React.FC<ImageUploadProps> = ({ onImageUpload }) => {
           }}
         >
           {selectedImage ? (
-            <Image src={URL.createObjectURL(selectedImage)} className='shadow-md rounded' alt="Selected" style={{ maxWidth: '100%', maxHeight: '100%' }}/>
+            <Image
+              width={100} height={100}
+              src={URL.createObjectURL(selectedImage)}
+              className='shadow-md rounded' alt="Selected"
+              style={{ maxWidth: '100%', maxHeight: '100%' }} />
           ) : (
             <Text fontSize={'10px'} textAlign={'center'}>
               {' '}

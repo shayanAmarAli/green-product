@@ -57,7 +57,7 @@ const InvoiceApp: React.FC = () => {
 
     const handleImageUpload = (imageUrl: string) => {
         setUploadedImageUrl(imageUrl);
-        if(uploadedImageUrl){
+        if (uploadedImageUrl) {
 
             console.log(uploadedImageUrl);
         }
@@ -88,8 +88,6 @@ const InvoiceApp: React.FC = () => {
             <Box display={'flex'} justifyContent={"space-between"} pt={"10px"}> <Heading as="h1" my={4}>
                 Detail of work
             </Heading>
-                <ImageUpload onImageUpload={handleImageUpload} />
-                {/* <img src={uploadedImageUrl} alt="image not uploaded" /> */}
             </Box>
             <VStack p={4}>
 
@@ -183,7 +181,6 @@ const InvoiceApp: React.FC = () => {
                     </Heading>
                 </Box>
             </Box>
-            <Client_signature />
             <Button width={"full"} bg={"gray.300"} onClick={() => onSubmitHandler()}>SUBMIT INVOICE</Button>
         </Container>
     );
